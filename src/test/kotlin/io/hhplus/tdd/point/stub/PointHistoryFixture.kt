@@ -4,14 +4,14 @@ import io.hhplus.tdd.point.PointHistory
 import io.hhplus.tdd.point.TransactionType
 
 object PointHistoryFixture {
-    private val defaultPointHistories =  listOf(
+    private val defaultPointHistories = mutableListOf(
         PointHistory(1, 1, TransactionType.CHARGE, 100, System.currentTimeMillis()),
         PointHistory(2, 1, TransactionType.USE, 100, System.currentTimeMillis()),
         PointHistory(3, 2, TransactionType.USE, 100, System.currentTimeMillis()),
         PointHistory(4, 2, TransactionType.USE, 100, System.currentTimeMillis()),
     )
 
-    fun preparePointHistories(pointHistories: List<PointHistory> = defaultPointHistories): List<PointHistory> {
+    fun preparePointHistories(pointHistories: MutableList<PointHistory> = defaultPointHistories): MutableList<PointHistory> {
         return pointHistories
     }
 

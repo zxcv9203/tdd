@@ -10,4 +10,8 @@ class InMemoryUserPointRepository(
     override fun getById(id: Long): UserPoint {
         return userPointTable.selectById(id)
     }
+
+    override fun save(userPoint: UserPoint): UserPoint {
+        return userPointTable.insertOrUpdate(userPoint.id, userPoint.point)
+    }
 }

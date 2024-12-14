@@ -10,4 +10,8 @@ class InMemoryPointHistoryRepository(
     override fun findHistoriesByUserId(userId: Long): List<PointHistory> {
         return pointHistoryTable.selectAllByUserId(userId)
     }
+
+    override fun save(pointHistory: PointHistory): PointHistory {
+        return pointHistoryTable.insert(pointHistory.userId, pointHistory.amount, pointHistory.type, pointHistory.timeMillis)
+    }
 }

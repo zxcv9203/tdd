@@ -42,4 +42,18 @@ class PointServiceTest {
             assertThat(got).isEqualTo(want)
         }
     }
+
+    @Nested
+    @DisplayName("포인트 충전")
+    inner class Charge {
+        @Test
+        @DisplayName("[성공] 포인트 충전에 성공한다.")
+        fun success() {
+            val want = UserPointFixture.create(UserPointFixture.getExistsId(), 200L)
+
+            val got = pointService.charge(UserPointFixture.getExistsId(), 100L)
+
+            assertThat(got).isEqualTo(want)
+        }
+    }
 }

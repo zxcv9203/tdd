@@ -8,5 +8,13 @@ class PointService(
     private val pointHistoryRepository: PointHistoryRepository
 ) {
     fun getById(id: Long): UserPoint = userPointRepository.getById(id)
+
     fun findHistoriesByUserId(userId: Long): List<PointHistory> = pointHistoryRepository.findHistoriesByUserId(userId)
+
+    fun charge(id: Long, amount: Long): UserPoint =
+        userPointRepository.getById(id)
+            .charge(amount)
+            .let { userPointRepository.save(it) }
+            .also { pointHistoryRepository.save(PointHistory.createByCharge(it.id, amount)) }
+
 }
