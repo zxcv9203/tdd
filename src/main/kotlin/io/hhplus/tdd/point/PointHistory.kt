@@ -8,13 +8,15 @@ data class PointHistory(
     val timeMillis: Long,
 ) {
     companion object {
-        fun createByCharge(userId: Long, amount: Long): PointHistory {
-            return PointHistory(0, userId, TransactionType.CHARGE, amount, System.currentTimeMillis())
-        }
+        fun createByCharge(
+            userId: Long,
+            amount: Long,
+        ): PointHistory = PointHistory(0, userId, TransactionType.CHARGE, amount, System.currentTimeMillis())
 
-        fun createByUse(id: Long, amount: Long): PointHistory {
-            return PointHistory(0, id, TransactionType.USE, amount, System.currentTimeMillis())
-        }
+        fun createByUse(
+            id: Long,
+            amount: Long,
+        ): PointHistory = PointHistory(0, id, TransactionType.USE, amount, System.currentTimeMillis())
     }
 }
 
@@ -24,5 +26,6 @@ data class PointHistory(
  * - USE : 사용
  */
 enum class TransactionType {
-    CHARGE, USE
+    CHARGE,
+    USE,
 }

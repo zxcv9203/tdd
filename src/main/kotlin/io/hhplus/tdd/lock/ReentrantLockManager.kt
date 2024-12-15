@@ -6,9 +6,12 @@ import java.util.concurrent.locks.ReentrantLock
 
 @Component
 class ReentrantLockManager(
-    private val locks: ConcurrentHashMap<Long, ReentrantLock> = ConcurrentHashMap()
+    private val locks: ConcurrentHashMap<Long, ReentrantLock> = ConcurrentHashMap(),
 ) : LockManager {
-    override fun <T> withLock(key: Long, action: () -> T): T {
+    override fun <T> withLock(
+        key: Long,
+        action: () -> T,
+    ): T {
         val lock = locks.getOrPut(key) { ReentrantLock() }
         lock.lock()
         return try {

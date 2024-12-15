@@ -10,30 +10,22 @@ class PointController(
     @GetMapping("{id}")
     fun point(
         @PathVariable id: Long,
-    ): UserPoint {
-        return pointService.getById(id)
-    }
+    ): UserPoint = pointService.getById(id)
 
     @GetMapping("{id}/histories")
     fun history(
         @PathVariable id: Long,
-    ): List<PointHistory> {
-        return pointService.findHistoriesByUserId(id)
-    }
+    ): List<PointHistory> = pointService.findHistoriesByUserId(id)
 
     @PatchMapping("{id}/charge")
     fun charge(
         @PathVariable id: Long,
         @RequestBody amount: Long,
-    ): UserPoint {
-        return pointService.charge(id, amount)
-    }
+    ): UserPoint = pointService.charge(id, amount)
 
     @PatchMapping("{id}/use")
     fun use(
         @PathVariable id: Long,
         @RequestBody amount: Long,
-    ): UserPoint {
-        return pointService.use(id, amount)
-    }
+    ): UserPoint = pointService.use(id, amount)
 }

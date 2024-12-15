@@ -13,7 +13,6 @@ class UserPointTest {
     @Nested
     @DisplayName("포인트 충전")
     inner class Charge {
-
         @Test
         @DisplayName("[성공] 포인트 충전에 성공한다.")
         fun success() {
@@ -51,7 +50,6 @@ class UserPointTest {
     @Nested
     @DisplayName("포인트 사용")
     inner class Use {
-
         @Test
         @DisplayName("[성공] 포인트 사용에 성공한다.")
         fun success() {

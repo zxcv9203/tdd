@@ -17,11 +17,12 @@ class PointServiceTest {
     private val pointHistoryRepository: PointHistoryRepository =
         FakePointHistoryRepository(PointHistoryFixture.preparePointHistories())
     private val lockManager: LockManager = FakeLockManager()
-    private val pointService: PointService = PointService(
-        userPointRepository = userPointRepository,
-        pointHistoryRepository = pointHistoryRepository,
-        lockManager = lockManager
-    )
+    private val pointService: PointService =
+        PointService(
+            userPointRepository = userPointRepository,
+            pointHistoryRepository = pointHistoryRepository,
+            lockManager = lockManager,
+        )
 
     @BeforeEach
     fun setUp() {
