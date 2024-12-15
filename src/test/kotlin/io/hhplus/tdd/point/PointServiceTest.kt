@@ -5,6 +5,7 @@ import io.hhplus.tdd.point.fake.FakeUserPointRepository
 import io.hhplus.tdd.point.stub.PointHistoryFixture
 import io.hhplus.tdd.point.stub.UserPointFixture
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -14,6 +15,11 @@ class PointServiceTest {
     private val pointHistoryRepository: PointHistoryRepository =
         FakePointHistoryRepository(PointHistoryFixture.preparePointHistories())
     private val pointService: PointService = PointService(userPointRepository, pointHistoryRepository)
+
+    @BeforeEach
+    fun setUp() {
+        userPointRepository.save(UserPointFixture.create(UserPointFixture.getExistsId(), 100L))
+    }
 
     @Nested
     @DisplayName("포인트 내역 조회")
@@ -52,6 +58,20 @@ class PointServiceTest {
             val want = UserPointFixture.create(UserPointFixture.getExistsId(), 200L)
 
             val got = pointService.charge(UserPointFixture.getExistsId(), 100L)
+
+            assertThat(got).isEqualTo(want)
+        }
+    }
+
+    @Nested
+    @DisplayName("포인트 사용")
+    inner class Use {
+        @Test
+        @DisplayName("[성공] 포인트 사용에 성공한다.")
+        fun success() {
+            val want = UserPointFixture.create(UserPointFixture.getExistsId(), 50L)
+
+            val got = pointService.use(UserPointFixture.getExistsId(), 50L)
 
             assertThat(got).isEqualTo(want)
         }

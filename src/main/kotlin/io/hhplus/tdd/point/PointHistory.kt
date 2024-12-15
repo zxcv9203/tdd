@@ -11,6 +11,10 @@ data class PointHistory(
         fun createByCharge(userId: Long, amount: Long): PointHistory {
             return PointHistory(0, userId, TransactionType.CHARGE, amount, System.currentTimeMillis())
         }
+
+        fun createByUse(id: Long, amount: Long): PointHistory {
+            return PointHistory(0, id, TransactionType.USE, amount, System.currentTimeMillis())
+        }
     }
 }
 

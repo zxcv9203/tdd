@@ -17,7 +17,7 @@ class PointController(
     ): UserPoint {
         return pointService.getById(id)
     }
-    
+
     @GetMapping("{id}/histories")
     fun history(
         @PathVariable id: Long,
@@ -33,14 +33,11 @@ class PointController(
         return pointService.charge(id, amount)
     }
 
-    /**
-     * TODO - 특정 유저의 포인트를 사용하는 기능을 작성해주세요.
-     */
     @PatchMapping("{id}/use")
     fun use(
         @PathVariable id: Long,
         @RequestBody amount: Long,
     ): UserPoint {
-        return UserPoint(0, 0, 0)
+        return pointService.use(id, amount)
     }
 }

@@ -17,4 +17,10 @@ class PointService(
             .let { userPointRepository.save(it) }
             .also { pointHistoryRepository.save(PointHistory.createByCharge(it.id, amount)) }
 
+    fun use(id: Long, amount: Long): UserPoint =
+        userPointRepository.getById(id)
+            .use(amount)
+            .let { userPointRepository.save(it) }
+            .also { pointHistoryRepository.save(PointHistory.createByUse(it.id, amount)) }
+
 }

@@ -47,4 +47,41 @@ class UserPointTest {
                 .hasMessage(PointErrorMessage.EXCEED_MAX_POINT.message)
         }
     }
+
+    @Nested
+    @DisplayName("포인트 사용")
+    inner class Use {
+
+        @Test
+        @DisplayName("[성공] 포인트 사용에 성공한다.")
+        fun success() {
+            val userPoint = UserPointFixture.create(1L, 100L)
+            val want = UserPointFixture.create(1L, 50L)
+
+            val got = userPoint.use(50L)
+
+            assertThat(got).isEqualTo(want)
+        }
+
+        @ParameterizedTest
+        @ValueSource(longs = [0, -1])
+        @DisplayName("[실패] 사용 포인트가 0이나 음수 경우 예외를 발생한다.")
+        fun failWhenUseNegativePoint(amount: Long) {
+            val userPoint = UserPointFixture.create(1L, 100L)
+
+            assertThatThrownBy { userPoint.use(amount) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+                .hasMessage(PointErrorMessage.USE_AMOUNT_SHOULD_BE_POSITIVE.message)
+        }
+
+        @Test
+        @DisplayName("[실패] 보유 포인트보다 많은 포인트를 사용하는 경우 예외를 발생한다.")
+        fun failWhenNotEnoughPoint() {
+            val userPoint = UserPointFixture.create(1L, 100L)
+
+            assertThatThrownBy { userPoint.use(101L) }
+                .isInstanceOf(IllegalArgumentException::class.java)
+                .hasMessage(PointErrorMessage.NOT_ENOUGH_POINT.message)
+        }
+    }
 }
