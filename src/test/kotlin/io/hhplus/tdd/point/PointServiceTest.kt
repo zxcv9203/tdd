@@ -1,5 +1,7 @@
 package io.hhplus.tdd.point
 
+import io.hhplus.tdd.lock.LockManager
+import io.hhplus.tdd.lock.fake.FakeLockManager
 import io.hhplus.tdd.point.fake.FakePointHistoryRepository
 import io.hhplus.tdd.point.fake.FakeUserPointRepository
 import io.hhplus.tdd.point.stub.PointHistoryFixture
@@ -14,7 +16,12 @@ class PointServiceTest {
     private val userPointRepository: UserPointRepository = FakeUserPointRepository(UserPointFixture.prepareUserPoints())
     private val pointHistoryRepository: PointHistoryRepository =
         FakePointHistoryRepository(PointHistoryFixture.preparePointHistories())
-    private val pointService: PointService = PointService(userPointRepository, pointHistoryRepository)
+    private val lockManager: LockManager = FakeLockManager()
+    private val pointService: PointService = PointService(
+        userPointRepository = userPointRepository,
+        pointHistoryRepository = pointHistoryRepository,
+        lockManager = lockManager
+    )
 
     @BeforeEach
     fun setUp() {

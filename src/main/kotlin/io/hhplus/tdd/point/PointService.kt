@@ -1,9 +1,11 @@
 package io.hhplus.tdd.point
 
+import io.hhplus.tdd.lock.LockManager
 import org.springframework.stereotype.Service
 
 @Service
 class PointService(
+    private val lockManager: LockManager,
     private val userPointRepository: UserPointRepository,
     private val pointHistoryRepository: PointHistoryRepository
 ) {
@@ -12,15 +14,17 @@ class PointService(
     fun findHistoriesByUserId(userId: Long): List<PointHistory> = pointHistoryRepository.findHistoriesByUserId(userId)
 
     fun charge(id: Long, amount: Long): UserPoint =
-        userPointRepository.getById(id)
-            .charge(amount)
-            .let { userPointRepository.save(it) }
-            .also { pointHistoryRepository.save(PointHistory.createByCharge(it.id, amount)) }
+        lockManager.withLock(id) {
+            userPointRepository.getById(id)
+                .charge(amount)
+                .let { userPointRepository.save(it) }
+        }.also { pointHistoryRepository.save(PointHistory.createByCharge(it.id, amount)) }
 
     fun use(id: Long, amount: Long): UserPoint =
-        userPointRepository.getById(id)
-            .use(amount)
-            .let { userPointRepository.save(it) }
-            .also { pointHistoryRepository.save(PointHistory.createByUse(it.id, amount)) }
+        lockManager.withLock(id) {
+            userPointRepository.getById(id)
+                .use(amount)
+                .let { userPointRepository.save(it) }
+        }.also { pointHistoryRepository.save(PointHistory.createByUse(it.id, amount)) }
 
 }
